@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "losmp",
+  "version": "${version}",
+  "name": "LOSMP",
+  "description": "Cool Mod",
+  "authors": [],
+  "contact": {},
+  "license": "LGPL-3.0",
+  "icon": "assets/losmp/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "net.shadow.losmp.client.LosmpDataGenerator"
+    ],
+    "client": [
+      "net.shadow.losmp.client.LosmpClient"
+    ],
+    "main": [
+      "net.shadow.losmp.Losmp"
+    ]
+  },
+  "mixins": [
+    "losmp.mixins.json",
+    {
+      "config": "losmp.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
