@@ -1,9 +1,11 @@
 package net.shadow.losmp.events;
 
+import com.mojang.authlib.minecraft.TelemetrySession;
 import io.github.lounode.eventwrapper.event.entity.living.LivingEventWrapper;
 import io.github.lounode.eventwrapper.eventbus.api.EventBusSubscriberWrapper;
 import io.github.lounode.eventwrapper.eventbus.api.SubscribeEventWrapper;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
+import net.minecraft.entity.ai.brain.sensor.NearestLivingEntitiesSensor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -41,6 +43,25 @@ public class ServerEvents {
         if (livingEntity.getY() >= 115 && level.isClient() && scarySoundCooldownForY115 == 0) {
             level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfory115(), SoundCategory.AMBIENT, 1f, 1f);
         }
+        if ((livingEntity instanceof PlayerEntity player) && livingEntity.isTouchingWater() && !player.isCreative()) {
+            livingEntity.addVelocity(0,-0.045,0);
+            if (player.isInSwimmingPose()) {
+                player.addVelocity(0,-0.08,0);
+            }
+            if (player.getAir() <= 20 && player.isSubmergedInWater() && player.getAir() > 15) {
+                level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfordrowning_subtle(), SoundCategory.AMBIENT, 1f, 1f);
+            }
+            if (player.getAir() <= 15 && player.getAir() > 10 && player.isSubmergedInWater()) {
+                level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfordrowning_quiet(), SoundCategory.AMBIENT, 1f, 1f);
+            }
+            if (player.getAir() <= 10 && player.getAir() > 5 && player.isSubmergedInWater()) {
+                level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfordrowning(), SoundCategory.AMBIENT, 1f, 1f);
+            }
+            if (player.getAir() <= 5) {
+                level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfordrowning_loud(), SoundCategory.AMBIENT, 1f, 1f);
+            }
+        }
+
         if(livingEntity instanceof PlayerEntity player) {
             for (int i=0;i < 37;i++){
                 itemTickInInventory(player.getInventory().getStack(i));
@@ -63,5 +84,17 @@ public class ServerEvents {
     }
     public static SoundEvent placeHolderSoundfory115() {
         return SoundEvents.ENTITY_DONKEY_CHEST;
+    }
+    public static SoundEvent placeHolderSoundfordrowning() {
+        return SoundEvents.BLOCK_BEACON_AMBIENT;
+    }
+    public static SoundEvent placeHolderSoundfordrowning_subtle() {
+        return SoundEvents.BLOCK_BEACON_AMBIENT;
+    }
+    public static SoundEvent placeHolderSoundfordrowning_quiet() {
+        return SoundEvents.BLOCK_BEACON_AMBIENT;
+    }
+    public static SoundEvent placeHolderSoundfordrowning_loud() {
+        return SoundEvents.BLOCK_BEACON_AMBIENT;
     }
 }
