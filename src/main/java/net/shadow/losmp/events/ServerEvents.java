@@ -1,16 +1,16 @@
 package net.shadow.losmp.events;
 
-import com.mojang.authlib.minecraft.TelemetrySession;
 import io.github.lounode.eventwrapper.event.entity.living.LivingEventWrapper;
 import io.github.lounode.eventwrapper.eventbus.api.EventBusSubscriberWrapper;
 import io.github.lounode.eventwrapper.eventbus.api.SubscribeEventWrapper;
-import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
-import net.minecraft.entity.ai.brain.sensor.NearestLivingEntitiesSensor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.shadow.losmp.command.DebuffsCommand;
+import net.shadow.losmp.config.ModConfigs;
 
 import java.util.Random;
 
@@ -25,25 +25,30 @@ public class ServerEvents {
     public static void OnLivingEntityTick(LivingEventWrapper.LivingTickEvent event) {
         var livingEntity = event.getEntity();
         var level = livingEntity.getWorld();
-        if (scarySoundCooldownForY0>0 && livingEntity.getY()<=0) {
-            scarySoundCooldownForY0--;
+        if(ModConfigs.isOilrigSoundOn) {
+            if (scarySoundCooldownForY0 > 0 && livingEntity.getY() <= 0) {
+                scarySoundCooldownForY0--;
+            }
+            if (scarySoundCooldownForY80 > 0 && livingEntity.getY() <= 80 && livingEntity.getY() > 0) {
+                scarySoundCooldownForY80--;
+            }
+            if (scarySoundCooldownForY115 > 0 && livingEntity.getY() >= 115) {
+                scarySoundCooldownForY115--;
+            }
+            if (livingEntity.getY() <= 0 && level.isClient() && scarySoundCooldownForY0 == 0 && livingEntity.isSubmergedInWater()) {
+                level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfory0(), SoundCategory.AMBIENT, 1f, 1f);
+                scarySoundCooldownForY0 = 20 * 60 * 3 + random.nextInt(10) * 20 * 6;
+            }
+            if (livingEntity.getY() <= 80 && livingEntity.getY() > 0 && level.isClient() && scarySoundCooldownForY80 == 0 && livingEntity.isSubmergedInWater()) {
+                level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfory80(), SoundCategory.AMBIENT, 1f, 1f);
+                scarySoundCooldownForY80 = 20 * 60 * 3 + random.nextInt(10) * 20 * 6;
+            }
+            if (livingEntity.getY() >= 115 && level.isClient() && scarySoundCooldownForY115 == 0) {
+                level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfory115(), SoundCategory.AMBIENT, 1f, 1f);
+                scarySoundCooldownForY115 = 20 * 60 * 3 + random.nextInt(10) * 20 * 6;
+            }
         }
-        if(scarySoundCooldownForY80>0 && livingEntity.getY() <= 80 && livingEntity.getY() > 0){
-            scarySoundCooldownForY80--;
-        }
-        if(scarySoundCooldownForY115>0 && livingEntity.getY() >= 115){
-            scarySoundCooldownForY115--;
-        }
-        if (livingEntity.getY() <= 0 && level.isClient() && scarySoundCooldownForY0 == 0 && livingEntity.isSubmergedInWater()) {
-            level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfory0(), SoundCategory.AMBIENT, 1f, 1f);
-        }
-        if (livingEntity.getY() <= 80 &&  livingEntity.getY() > 0 && level.isClient() && scarySoundCooldownForY80 == 0 && livingEntity.isSubmergedInWater()) {
-            level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfory80(), SoundCategory.AMBIENT, 1f, 1f);
-        }
-        if (livingEntity.getY() >= 115 && level.isClient() && scarySoundCooldownForY115 == 0) {
-            level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfory115(), SoundCategory.AMBIENT, 1f, 1f);
-        }
-        if ((livingEntity instanceof PlayerEntity player) && livingEntity.isTouchingWater() && !player.isCreative()) {
+        if ((livingEntity instanceof PlayerEntity player) && livingEntity.isTouchingWater() && !player.isCreative() && DebuffsCommand.isIsDrowning()) {
             livingEntity.addVelocity(0,-0.045,0);
             if (player.isInSwimmingPose()) {
                 player.addVelocity(0,-0.08,0);
@@ -62,19 +67,14 @@ public class ServerEvents {
             }
         }
 
-        if(livingEntity instanceof PlayerEntity player) {
-            for (int i=0;i < 37;i++){
-                itemTickInInventory(player.getInventory().getStack(i));
+        if(livingEntity instanceof ServerPlayerEntity player) {
+            ItemStack itemStack = player.getInventory().getMainHandStack();
+            if(itemStack.isFood()){
+                itemStack.setDamage(1);
             }
         }
     }
 
-    public static void itemTickInInventory(ItemStack itemStack){
-        if(itemStack.isFood()){
-            itemStack.getMaxDamage();
-            itemStack.setDamage(1);
-        }
-    }
 
     public static SoundEvent placeHolderSoundfory0() {
         return SoundEvents.ENTITY_DONKEY_CHEST;

@@ -40,6 +40,11 @@ repositories {
         name = "lounode"
         url = "https://maven.lounode.top/#/releases"
     }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    mavenCentral()
 }
 
 dependencies {
@@ -47,7 +52,8 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "curse.maven:event-wrapper-1256971:6600885"
+    modImplementation "maven.modrinth:event-wrapper:1.20.1-1.1.1-fabric"
+    include "maven.modrinth:event-wrapper:1.20.1-1.1.1-fabric"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
