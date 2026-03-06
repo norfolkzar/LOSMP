@@ -25,3 +25,4 @@ public static final String MOD_ID = "losmp";
         ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register(new PlayerKilledByPlayerHandler());
     }
 }
+
