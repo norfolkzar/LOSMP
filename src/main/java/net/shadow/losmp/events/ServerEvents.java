@@ -5,13 +5,17 @@ import io.github.lounode.eventwrapper.eventbus.api.EventBusSubscriberWrapper;
 import io.github.lounode.eventwrapper.eventbus.api.SubscribeEventWrapper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.world.GameRules;
 import net.shadow.losmp.command.DebuffsCommand;
 import net.shadow.losmp.config.ModConfigs;
+import net.shadow.losmp.config.ModGameRules;
 
+import java.util.Objects;
 import java.util.Random;
 
 //livingEntity.hasPermissionLevel() to check if the player has OP or smthing
@@ -73,7 +77,11 @@ public class ServerEvents {
                 itemStack.setDamage(1);
             }
         }
+        if(ModConfigs.isEngineWorking && ModConfigs.allowTaskBlockFails && (level.getServer()).getTickTime()%(12000 + new Random().nextInt(36000))== 0){
+            ModConfigs.isEngineWorking = false;
+        }
     }
+
 
 
     public static SoundEvent placeHolderSoundfory0() {

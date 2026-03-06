@@ -23,6 +23,7 @@ public class ModEffects {
     }
 
     public static void registerEffects(){
+        Losmp.LOGGER.info("Registering Effects for " + Losmp.MOD_ID);
         BLOODSOAKED = registerBloodSoakedMethod("blood_soaked");
         MIMIC_EFFECT = registerMimicEffectMethod("mimic_effect");
     }
