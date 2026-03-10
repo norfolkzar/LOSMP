@@ -2,8 +2,8 @@ package net.shadow.losmp.block;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -13,14 +13,26 @@ import net.shadow.losmp.Losmp;
 
 public class ModBlocks {
 
-    public static final Block AWOOGA_BLOCK = registerBlock("awooga_block",
-            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)));
+    public static final Block ENGINE_BLOCK = registerBlock("engine_block",
+            new EngineBlock(FabricBlockSettings.create()));
+
+    public static final Block LIGHT_BLOCK = registerBlock("light_block",
+                    new FlickerLightBlock(AbstractBlock.Settings.create()
+                            .luminance(state -> {
+                                int f = state.get(FlickerLightBlock.FLICKER);
+                                if (f == 0) return 15;
+                                if (f == 1) return 10;
+                                return 6;
+                            })
+                    )
+            );
 
     private static Block registerBlock(String name , Block block){
         registerBlockItem(name,block);
         return Registry.register(Registries.BLOCK,new Identifier(Losmp.MOD_ID,name),
                 block);
     }
+
 
     private static Item registerBlockItem(String name, Block block){
         return Registry.register(Registries.ITEM,new Identifier(Losmp.MOD_ID,name),

@@ -14,7 +14,6 @@ public class ModConfigs  {
     public static Boolean isOilrigSoundOn;
     public static Boolean isKillingPlayerEnabled;
     public static Boolean isEngineWorking;
-    public static Boolean allowTaskBlockFails ;
 
 
 
@@ -33,7 +32,6 @@ public class ModConfigs  {
         configs.addKeyValuePair(new Pair<>("key.test.value3",true),"Oilrig Sound below or above a certain height");//Oilrig Sounds
         configs.addKeyValuePair(new Pair<>("key.test.value4",true),"Player killing now has consequences..");//Killing player debuffs
         configs.addKeyValuePair(new Pair<>("key.test.value5",true),"Checks if the engine is working");//checks if engine is working
-        configs.addKeyValuePair(new Pair<>("key.test.value6",false),"awooga");
     }
 
     private static void assignConfigs() {
@@ -42,7 +40,6 @@ public class ModConfigs  {
         isOilrigSoundOn = CONFIG.getOrDefault("key.test.value3",true);
         isKillingPlayerEnabled = CONFIG.getOrDefault("key.test.value4",true);
         isEngineWorking = CONFIG.getOrDefault("key.test.value5",true);
-        allowTaskBlockFails = CONFIG.getOrDefault("key.test.value6",false);
         System.out.println("All " + configs.getConfigsList().size() + " have been set properly");
     }
 }

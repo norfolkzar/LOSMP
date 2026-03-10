@@ -7,6 +7,7 @@ import net.minecraft.world.GameRules;
 public class ModGameRules {
 
     public static GameRules.Key<GameRules.BooleanRule> allowTaskBlockFails;
+
     public static void init(){
     allowTaskBlockFails = GameRuleRegistry.register("allowTaskBlockFails", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
     }

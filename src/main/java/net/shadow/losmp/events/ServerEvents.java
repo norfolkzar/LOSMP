@@ -77,7 +77,7 @@ public class ServerEvents {
                 itemStack.setDamage(1);
             }
         }
-        if(ModConfigs.isEngineWorking && ModConfigs.allowTaskBlockFails && (level.getServer()).getTickTime()%(12000 + new Random().nextInt(36000))== 0){
+        if(ModConfigs.isEngineWorking && ModGameRules.allowTaskBlockFails.equals(true) && (level.getServer()).getTickTime()%(12000 + new Random().nextInt(36000))== 0){
             ModConfigs.isEngineWorking = false;
         }
     }
