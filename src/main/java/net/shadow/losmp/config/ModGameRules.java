@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.world.GameRules;
 
 public class ModGameRules {
-
     public static GameRules.Key<GameRules.BooleanRule> allowTaskBlockFails;
 
     public static void init(){

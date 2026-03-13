@@ -8,13 +8,19 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.shadow.losmp.Losmp;
+import net.shadow.losmp.item.custom.ShotgunItem;
+import net.shadow.losmp.item.custom.ShotgunAmmoItem;
 
 public class ModItems {
 
-    public static final Item AWOOGA_ITEM = registerItems("awooga",new Item(new Item.Settings()));
+    public static final Item SHOTGUN = registerItems("shotgun",
+            new ShotgunItem(new Item.Settings().maxCount(1)));
+
+    public static final Item SHOTGUN_AMMO = registerItems("shotgun_ammo",
+            new ShotgunAmmoItem(new Item.Settings()));
 
     private static void addItemsToCreativeTab(FabricItemGroupEntries entries){
-        entries.add(AWOOGA_ITEM);
+        entries.add(SHOTGUN);
     }
 
     private static Item registerItems(String name, Item item){
