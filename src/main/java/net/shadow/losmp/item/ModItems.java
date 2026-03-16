@@ -16,16 +16,38 @@ public class ModItems {
     public static final Item SHOTGUN = registerItems("shotgun",
             new ShotgunItem(new Item.Settings().maxCount(1)));
 
-    public static final Item SHOTGUN_AMMO = registerItems("shotgun_ammo",
+    public static final Item SHOTGUN_AMMO = registerItems("shotgun_shell",
             new ShotgunAmmoItem(new Item.Settings()));
 
+    public static final Item WRENCH_ITEM = registerItems("wrench",
+            new Item(new Item.Settings()));
+
+    public static final Item RADIO_PART_ITEM = registerItems("radio_part",
+            new Item(new Item.Settings()));
+
+    public static final Item SIGNAL_DRIVE_ITEM = registerItems("signal_drive",
+            new Item(new Item.Settings()));
+    public static final Item OFFLINE_SIGNAL_DRIVE_ITEM = registerItems("signal_drive_offline",
+            new Item(new Item.Settings()));
+    public static final Item AWAITING_SIGNAL_DRIVE_ITEM = registerItems("signal_drive_awaiting",
+            new Item(new Item.Settings()));
+    public static final Item BOOSTING_SIGNAL_DRIVE_ITEM = registerItems("signal_drive_boosting",
+            new Item(new Item.Settings()));
+
+    public static final Item FUEL_CANISTER_ITEM = registerItems("fuel_canister",
+            new Item(new Item.Settings()));
+    public static final Item EMPTY_FUEL_CANISTER_ITEM = registerItems("fuel_canister_empty",
+            new Item(new Item.Settings()));
+
     private static void addItemsToCreativeTab(FabricItemGroupEntries entries){
-        entries.add(SHOTGUN);
+        entries.add(WRENCH_ITEM);
     }
 
     private static Item registerItems(String name, Item item){
         return Registry.register(Registries.ITEM,new Identifier(Losmp.MOD_ID,name),item);
     }
+
+
     public static void registerModItems(){
         Losmp.LOGGER.info("Registering Items for " + Losmp.MOD_ID);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(ModItems::addItemsToCreativeTab);

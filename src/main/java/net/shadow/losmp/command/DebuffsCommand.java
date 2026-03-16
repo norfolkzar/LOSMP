@@ -17,12 +17,18 @@ public class DebuffsCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) {
         dispatcher.register(CommandManager.literal("losmp")
-                        .then(CommandManager.literal("sound").then(CommandManager.literal("oilrig").then(CommandManager.argument("oilrig_sound_enable",BoolArgumentType.bool()).executes((context -> runOilrigSound(context,BoolArgumentType.getBool(context,"oilrig_sound_enable")))))))
+                .then(CommandManager.literal("sound")
+                        .then(CommandManager.literal("oilrig").then(CommandManager.argument("oilrig_sound_enable",BoolArgumentType.bool()).executes((context -> runOilrigSound(context,BoolArgumentType.getBool(context,"oilrig_sound_enable")))))))
                 .then(CommandManager.literal("debuffs")
                         .then(CommandManager.literal("player_killing_penalty").then(CommandManager.argument("player_killing_penalty_enable",BoolArgumentType.bool()).executes((context -> runPlayerKillingPenalty(context,BoolArgumentType.getBool(context,"player_killing_penalty_enable"))))))
-                        .then(CommandManager.literal("drowning").then(CommandManager.argument("drowning_enable", BoolArgumentType.bool()).executes((context -> runDrowning(context,BoolArgumentType.getBool(context,"drowning_enable"))))))));
+                        .then(CommandManager.literal("drowning").then(CommandManager.argument("drowning_enable", BoolArgumentType.bool()).executes((context -> runDrowning(context,BoolArgumentType.getBool(context,"drowning_enable")))))))
+                .then(CommandManager.literal("break")
+                      .then(CommandManager.literal("engine").executes((context -> engineToggle(context,true)))))
+                .then(CommandManager.literal("repair")
+                        .then(CommandManager.literal("engine").executes((context -> engineToggle(context,false)))))
 
 
+        );
     }
 
 
@@ -53,6 +59,16 @@ public class DebuffsCommand {
             return 1;
         }
         else context.getSource().sendFeedback(()-> Text.literal("Drowning Has Been Disabled"),true);
+        return 1;
+    }
+
+    public static int engineToggle(CommandContext<ServerCommandSource> context, boolean isEngineEnabled) {
+        ModConfigs.isEngineWorking = isEngineEnabled;
+        if(isEngineEnabled){
+            context.getSource().sendFeedback(()-> Text.literal("Engine Is Now Broken"),true);
+            return 1;
+        }
+        else context.getSource().sendFeedback(()-> Text.literal("Engine Is Now Repaired"),true);
         return 1;
     }
 

@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -13,7 +14,7 @@ import net.shadow.losmp.Losmp;
 
 public class ModBlocks {
 
-    public static final Block ENGINE_BLOCK = registerBlock("engine_block",
+    public static final Block ENGINE_BLOCK = registerBlock("engine",
             new EngineBlock(FabricBlockSettings.create()));
 
     public static final Block LIGHT_BLOCK = registerBlock("light_block",
@@ -26,6 +27,7 @@ public class ModBlocks {
                             })
                     )
             );
+
 
     private static Block registerBlock(String name , Block block){
         registerBlockItem(name,block);

@@ -67,7 +67,10 @@ public class ShotgunItem extends Item {
     public ItemStack finishUsing(ItemStack itemStack, World world, LivingEntity user) {
         if ((user instanceof PlayerEntity player)) {
             if (reloadForPlayer(player)) {
-                itemStack.getNbt().putInt("losmp.ammo", 2);
+                itemStack.getNbt().putInt("losmp.ammo", 1);
+                if (partialReload(player)) {
+                    itemStack.getNbt().putInt("losmp.ammo", 2);
+                }
                 if (!world.isClient) {
                     world.playSound(null, player.getBlockPos(), SoundEvents.ITEM_ARMOR_EQUIP_IRON, SoundCategory.PLAYERS, 1f, 1f);
                     player.getItemCooldownManager().set(this, 20);
@@ -125,5 +128,18 @@ public class ShotgunItem extends Item {
             }
         }
         return hasReloaded;
+    }
+
+    public static Boolean partialReload(PlayerEntity player) {
+        boolean secondshell = false;
+        for(int i = 0; i < player.getInventory().size(); i++) {
+            ItemStack itemStack = player.getInventory().getStack(i);
+            if (!itemStack.isEmpty() && itemStack.isOf(ModItems.SHOTGUN_AMMO)){
+                itemStack.decrement(2);
+                secondshell = true;
+                break;
+            }
+        }
+        return secondshell;
     }
 }
