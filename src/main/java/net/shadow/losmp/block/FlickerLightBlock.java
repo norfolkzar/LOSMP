@@ -2,8 +2,6 @@ package net.shadow.losmp.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
@@ -36,6 +34,7 @@ public class FlickerLightBlock extends Block {
             world.scheduleBlockTick(pos, this, 5);
         }
     }
+
 
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {

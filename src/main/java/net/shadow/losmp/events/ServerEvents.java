@@ -23,6 +23,7 @@ import net.minecraft.world.GameRules;
 import net.shadow.losmp.command.DebuffsCommand;
 import net.shadow.losmp.config.ModConfigs;
 import net.shadow.losmp.config.ModGameRules;
+import net.shadow.losmp.registries.ModEffects;
 
 import java.util.Objects;
 import java.util.Random;
@@ -78,6 +79,9 @@ public class ServerEvents {
             if (player.getAir() <= 5) {
                 level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfordrowning_loud(), SoundCategory.AMBIENT, 1f, 1f);
             }
+        }
+        if(livingEntity instanceof PlayerEntity player && level.getServer().getTickTime()%5==0 && player.hasStatusEffect(ModEffects.SCREEN_SHAKE_EFFECT)){
+            player.applyDamageEffects(null,player);
         }
 
         if(livingEntity instanceof ServerPlayerEntity player) {

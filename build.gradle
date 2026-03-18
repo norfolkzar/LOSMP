@@ -37,6 +37,15 @@ repositories {
         url "https://cursemaven.com"
     }
     maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroupByRegex("software\\.bernie.*")
+            includeGroup("com.eliotlash.mclib")
+        }
+    }
+
+    maven {
         name = "lounode"
         url = "https://maven.lounode.top/#/releases"
     }
@@ -54,6 +63,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "maven.modrinth:event-wrapper:1.20.1-1.1.1-fabric"
     include "maven.modrinth:event-wrapper:1.20.1-1.1.1-fabric"
+    modImplementation("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:${geckolib_version}")
+    implementation("com.eliotlash.mclib:mclib:20")
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
