@@ -1,10 +1,9 @@
 package net.shadow.losmp.mixin;
 
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
+/*import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;*/
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,11 +25,11 @@ public abstract class InventoryModifierMixin {
     private void scrollInHotbarThree(double scrollAmount, CallbackInfo ci) {
         int i = (int)Math.signum(scrollAmount);
 
-        while(self.selectedSlot <= 5) {
+        while(self.selectedSlot - i < 3) {
             self.selectedSlot += 3;
         }
 
-        while(self.selectedSlot >= 5) {
+        while(self.selectedSlot - i > 5) {
             self.selectedSlot -= 3;
         }
     }
