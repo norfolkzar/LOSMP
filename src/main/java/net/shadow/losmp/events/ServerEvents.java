@@ -80,19 +80,6 @@ public class ServerEvents {
                 level.playSound(null, livingEntity.getBlockPos(), placeHolderSoundfordrowning_loud(), SoundCategory.AMBIENT, 1f, 1f);
             }
         }
-        if(livingEntity instanceof PlayerEntity player && level.getServer().getTickTime()%5==0 && player.hasStatusEffect(ModEffects.SCREEN_SHAKE_EFFECT)){
-            player.applyDamageEffects(null,player);
-        }
-
-        if(livingEntity instanceof ServerPlayerEntity player) {
-            ItemStack itemStack = player.getInventory().getMainHandStack();
-            if(itemStack.isFood()){
-                itemStack.setDamage(1);
-            }
-        }
-        if(ModConfigs.isEngineWorking && ModGameRules.allowTaskBlockFails.equals(true) && (level.getServer()).getTickTime()%(12000 + new Random().nextInt(36000))== 0){
-            ModConfigs.isEngineWorking = false;
-        }
     }
 
 
