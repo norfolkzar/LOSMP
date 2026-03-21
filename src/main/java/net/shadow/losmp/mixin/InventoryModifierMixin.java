@@ -34,15 +34,11 @@ public abstract class InventoryModifierMixin {
 
     @Inject(method = "getEmptySlot",at=@At("HEAD"), cancellable = true)
     private void threeSlotIsEmpty(CallbackInfoReturnable<Integer> cir) {
-        boolean foundEmptySlot = false;
+        cir.setReturnValue(-1);
         for(int i = 3; i < 6; ++i) {
             if ((self.main.get(i)).isEmpty()) {
                 cir.setReturnValue(i);
-                foundEmptySlot = true;
             }
-        }
-        if (!foundEmptySlot) {
-            cir.setReturnValue(-1);
         }
     }
 }
