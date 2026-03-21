@@ -23,9 +23,9 @@ public class DebuffsCommand {
                         .then(CommandManager.literal("player_killing_penalty").then(CommandManager.argument("player_killing_penalty_enable",BoolArgumentType.bool()).executes((context -> runPlayerKillingPenalty(context,BoolArgumentType.getBool(context,"player_killing_penalty_enable"))))))
                         .then(CommandManager.literal("drowning").then(CommandManager.argument("drowning_enable", BoolArgumentType.bool()).executes((context -> runDrowning(context,BoolArgumentType.getBool(context,"drowning_enable")))))))
                 .then(CommandManager.literal("break")
-                      .then(CommandManager.literal("engine").executes((context -> engineToggle(context,true)))))
+                      .then(CommandManager.literal("engine").executes((context -> engineToggle(context,false)))))
                 .then(CommandManager.literal("repair")
-                        .then(CommandManager.literal("engine").executes((context -> engineToggle(context,false)))))
+                        .then(CommandManager.literal("engine").executes((context -> engineToggle(context,true)))))
 
 
         );
@@ -42,9 +42,9 @@ public class DebuffsCommand {
         return 1;
     }
 
-    public static int runPlayerKillingPenalty(CommandContext<ServerCommandSource> context, boolean isPlayerKillingPentaltyEnabled) {
-        ModConfigs.isKillingPlayerEnabled = isPlayerKillingPentaltyEnabled;
-        if(isPlayerKillingPentaltyEnabled){
+    public static int runPlayerKillingPenalty(CommandContext<ServerCommandSource> context, boolean isPlayerKillingPenaltyEnabled) {
+        ModConfigs.isKillingPlayerEnabled = isPlayerKillingPenaltyEnabled;
+        if(isPlayerKillingPenaltyEnabled){
             context.getSource().sendFeedback(()-> Text.literal("Player Killing Penalty Has Been Enabled"),true);
             return 1;
         }
@@ -65,10 +65,10 @@ public class DebuffsCommand {
     public static int engineToggle(CommandContext<ServerCommandSource> context, boolean isEngineEnabled) {
         ModConfigs.isEngineWorking = isEngineEnabled;
         if(isEngineEnabled){
-            context.getSource().sendFeedback(()-> Text.literal("Engine Is Now Broken"),true);
+            context.getSource().sendFeedback(()-> Text.literal("Engine Is Now Repaired"),true);
             return 1;
         }
-        else context.getSource().sendFeedback(()-> Text.literal("Engine Is Now Repaired"),true);
+        else context.getSource().sendFeedback(()-> Text.literal("Engine Is Now Broken"),true);
         return 1;
     }
 

@@ -27,14 +27,12 @@ public class FlickerLightBlock extends Block {
         builder.add(FLICKER);
     }
 
-
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         if(!world.isClient){
             world.scheduleBlockTick(pos, this, 5);
         }
     }
-
 
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {

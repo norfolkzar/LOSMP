@@ -1,9 +1,11 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.shadow.losmp.mixin.client",
+  "package": "net.shadow.losmp.client.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "CameraAccessor",
+    "CameraMixin"
   ],
   "injectors": {
     "defaultRequire": 1

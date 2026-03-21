@@ -4,9 +4,11 @@
   "package": "net.shadow.losmp.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "InventoryModifierMixin",
     "ItemMixin",
-    "ItemStackMixin",
-    "InventoryModifierMixin"
+    "PlayerInventoryMixin",
+    "ScreenHandlerMixin",
+    "SlotMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -15,6 +17,5 @@
     "requireAnnotations": true
   },
   "client": [
-
   ]
 }
