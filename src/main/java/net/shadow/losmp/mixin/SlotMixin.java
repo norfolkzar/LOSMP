@@ -2,28 +2,30 @@ package net.shadow.losmp.mixin;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.slot.Slot;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.io.Console;
-
 @Mixin(Slot.class)
 public abstract class SlotMixin {
+
+    @Unique
+    private boolean isSlotAllowedToUse(Slot slot) {
+        int index = slot.getIndex();
+        boolean isIndexWithinRange = ((index >= 3 && index <= 5) || (index > 35 && index < 40));
+        return (!(slot.inventory instanceof PlayerInventory) || isIndexWithinRange);
+    }
 
     @Inject(method = "canTakeItems", at = @At("HEAD"), cancellable = true)
     private void awooga(PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
         Slot slot = (Slot) (Object) this;
         if ((player.currentScreenHandler instanceof PlayerScreenHandler)) {
-            int index = slot.getIndex();
-            if (!(slot.inventory instanceof PlayerInventory) || (index >= 3 && index <= 5)) {
+            if (isSlotAllowedToUse(slot)) {
                 cir.setReturnValue(true);
             } else {
                 cir.setReturnValue(false);
@@ -32,10 +34,9 @@ public abstract class SlotMixin {
     }
 
     @Inject(method = "canInsert", at = @At("HEAD"), cancellable = true)
-    private void awooga(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    private void adooga(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         Slot slot = (Slot)(Object)this;
-        int index = slot.getIndex();
-        if (!(slot.inventory instanceof PlayerInventory) || (index >= 3 && index <= 5)) {
+        if (isSlotAllowedToUse(slot)) {
             cir.setReturnValue(true);
         } else {
             cir.setReturnValue(false);
@@ -45,7 +46,6 @@ public abstract class SlotMixin {
     @Inject(method = "canBeHighlighted", at = @At("HEAD"), cancellable = true)
     private void abooga(CallbackInfoReturnable<Boolean> cir) {
         Slot slot = (Slot)(Object)this;
-        int index = slot.getIndex();
-        cir.setReturnValue((!(slot.inventory instanceof PlayerInventory) || (index >= 3 && index <= 5)));
+        cir.setReturnValue(isSlotAllowedToUse(slot));
     }
 }
