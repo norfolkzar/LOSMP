@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.impl.ModContainerImpl;
 import net.shadow.losmp.block.ModBlocks;
+import net.shadow.losmp.block.entity.ModBlockEntities;
 import net.shadow.losmp.config.ModConfigs;
 import net.shadow.losmp.config.ModGameRules;
 import net.shadow.losmp.events.PlayerKilledByPlayerHandler;
@@ -25,6 +26,7 @@ public static Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
         ModEffects.registerEffects();
         ModItems.registerModItems();
         ModBlocks.registerModBlocks();
+        ModBlockEntities.registerModBlockEntities();
         CommandRegistry.registerCommands();
         FabricLoader.getInstance().getModContainer(MOD_ID).ifPresent(mod -> {
             if (mod instanceof ModContainerImpl impl) {
