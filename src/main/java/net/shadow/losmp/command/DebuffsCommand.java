@@ -11,9 +11,6 @@ import net.shadow.losmp.config.ModConfigs;
 
 public class DebuffsCommand {
 
-    public static boolean isIsDrowning() {
-        return ModConfigs.isDrowningOn;
-    }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) {
         dispatcher.register(CommandManager.literal("losmp")
@@ -23,8 +20,13 @@ public class DebuffsCommand {
                         .then(CommandManager.literal("player_killing_penalty").then(CommandManager.argument("player_killing_penalty_enable",BoolArgumentType.bool()).executes((context -> runPlayerKillingPenalty(context,BoolArgumentType.getBool(context,"player_killing_penalty_enable"))))))
                         .then(CommandManager.literal("drowning").then(CommandManager.argument("drowning_enable", BoolArgumentType.bool()).executes((context -> runDrowning(context,BoolArgumentType.getBool(context,"drowning_enable")))))))
                 .then(CommandManager.literal("break")
+                      .then(CommandManager.literal("gyro").executes((context -> gyroToggle(context,false))))
+                      .then(CommandManager.literal("flair").executes((context -> flairToggle(context,false))))
                       .then(CommandManager.literal("engine").executes((context -> engineToggle(context,false)))))
+
                 .then(CommandManager.literal("repair")
+                        .then(CommandManager.literal("gyro").executes((context -> gyroToggle(context,true))))
+                        .then(CommandManager.literal("flair").executes((context -> flairToggle(context,true))))
                         .then(CommandManager.literal("engine").executes((context -> engineToggle(context,true)))))
 
 
@@ -72,4 +74,23 @@ public class DebuffsCommand {
         return 1;
     }
 
+    public static int flairToggle(CommandContext<ServerCommandSource> context, boolean isFlairEnabled) {
+        ModConfigs.isFlairWorking = isFlairEnabled;
+        if(isFlairEnabled){
+            context.getSource().sendFeedback(()-> Text.literal("Flair Is Now Repaired"),true);
+            return 1;
+        }
+        else context.getSource().sendFeedback(()-> Text.literal("Flair Is Now Broken"),true);
+        return 1;
+    }
+
+    public static int gyroToggle(CommandContext<ServerCommandSource> context, boolean isGyroEnabled) {
+        ModConfigs.isGyroZeppeliWorking = isGyroEnabled;
+        if(isGyroEnabled){
+            context.getSource().sendFeedback(()-> Text.literal("Gyro Is Now Repaired"),true);
+            return 1;
+        }
+        else context.getSource().sendFeedback(()-> Text.literal("Gyro Is Now Broken"),true);
+        return 1;
+    }
 }

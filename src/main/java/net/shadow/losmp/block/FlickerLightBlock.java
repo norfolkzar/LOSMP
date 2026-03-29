@@ -36,7 +36,7 @@ public class FlickerLightBlock extends Block {
 
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (!ModConfigs.isEngineWorking) {
+        if (!ModConfigs.isEngineWorking.equals(true)) {
             int flicker = random.nextInt(3);
             world.setBlockState(pos, state.with(FLICKER, flicker));
             world.scheduleBlockTick(pos, this, 5);

@@ -8,6 +8,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.shadow.losmp.Losmp;
+import net.shadow.losmp.item.custom.FuelCanisterItem;
 import net.shadow.losmp.item.custom.ShotgunItem;
 import net.shadow.losmp.item.custom.ShotgunAmmoItem;
 
@@ -35,9 +36,8 @@ public class ModItems {
             new Item(new Item.Settings()));
 
     public static final Item FUEL_CANISTER_ITEM = registerItems("fuel_canister",
-            new Item(new Item.Settings()));
-    public static final Item EMPTY_FUEL_CANISTER_ITEM = registerItems("fuel_canister_empty",
-            new Item(new Item.Settings()));
+            new FuelCanisterItem(new Item.Settings().maxCount(1)));
+
 
     private static void addItemsToCreativeTab(FabricItemGroupEntries entries){
         entries.add(WRENCH_ITEM);

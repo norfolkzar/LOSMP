@@ -1,31 +1,17 @@
 package net.shadow.losmp.events;
 
 import io.github.lounode.eventwrapper.event.entity.living.LivingEventWrapper;
+import io.github.lounode.eventwrapper.event.server.ServerStartingEventWrapper;
 import io.github.lounode.eventwrapper.eventbus.api.EventBusSubscriberWrapper;
 import io.github.lounode.eventwrapper.eventbus.api.SubscribeEventWrapper;
-import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.ClientConnection;
-import net.minecraft.network.NetworkSide;
-import net.minecraft.network.encryption.ClientPlayerSession;
-import net.minecraft.network.message.SignedMessage;
-import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
-import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.GameRules;
 import net.shadow.losmp.command.DebuffsCommand;
 import net.shadow.losmp.config.ModConfigs;
-import net.shadow.losmp.config.ModGameRules;
-import net.shadow.losmp.registries.ModEffects;
 
-import java.util.Objects;
 import java.util.Random;
 
 //livingEntity.hasPermissionLevel() to check if the player has OP or smthing
@@ -35,11 +21,14 @@ public class ServerEvents {
     private static double scarySoundCooldownForY0 = 20 * 60 * 3 + random.nextInt(10) * 20 * 6;
     private static double scarySoundCooldownForY80 = 20 * 60 * 3 + random.nextInt(10) * 20 * 6;
     private static double scarySoundCooldownForY115 = 20 * 60 * 3 + random.nextInt(10) * 20 * 6;
+    private static double flairBreakCooldownTimer = 0;
+    private static double flairBreakCooldown = getBoundedRandom(20*60*30,20*60*50);
     @SubscribeEventWrapper
     public static void OnLivingEntityTick(LivingEventWrapper.LivingTickEvent event) {
         var livingEntity = event.getEntity();
         var level = livingEntity.getWorld();
-        if(ModConfigs.isOilrigSoundOn) {
+
+        if(ModConfigs.isOilrigSoundOn.equals(true)) {
             if (scarySoundCooldownForY0 > 0 && livingEntity.getY() <= 0) {
                 scarySoundCooldownForY0--;
             }
@@ -62,7 +51,12 @@ public class ServerEvents {
                 scarySoundCooldownForY115 = 20 * 60 * 3 + random.nextInt(10) * 20 * 6;
             }
         }
-        if ((livingEntity instanceof PlayerEntity player) && livingEntity.isTouchingWater() && !player.isCreative() && DebuffsCommand.isIsDrowning()) {
+        /*flairBreakCooldownTimer++;
+        if(flairBreakCooldownTimer > flairBreakCooldown && ModConfigs.allowTaskBlockFails.equals(true)){
+            flairBreakCooldownTimer = 0;
+            flairBreakCooldown = getBoundedRandom(20*60*30,20*60*50);
+        }*/
+        if ((livingEntity instanceof PlayerEntity player) && livingEntity.isTouchingWater() && !player.isCreative() && ModConfigs.isDrowningOn.equals(true)) {
             livingEntity.addVelocity(0,-0.045,0);
             if (player.isInSwimmingPose()) {
                 player.addVelocity(0,-0.08,0);
@@ -82,7 +76,15 @@ public class ServerEvents {
         }
     }
 
+    @SubscribeEventWrapper
+    public static void onServerStart(ServerStartingEventWrapper event){
+        var server = event.getServer();
+        server.getGameRules().get(GameRules.REDUCED_DEBUG_INFO).set(true,server);
+    }
 
+    private static int getBoundedRandom(int min,int max) {
+        return min + (int)(Math.random() * (max - min));
+    }
 
     public static SoundEvent placeHolderSoundfory0() {
         return SoundEvents.ENTITY_DONKEY_CHEST;

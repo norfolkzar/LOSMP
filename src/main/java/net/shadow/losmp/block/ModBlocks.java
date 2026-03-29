@@ -18,6 +18,9 @@ public class ModBlocks {
     public static final Block ENGINE_BLOCK = registerBlock("engine",
             new EngineBlock(FabricBlockSettings.create()));
 
+    public static final Block ESKY_BLOCK = registerBlock("esky",
+            new EskyBlock(FabricBlockSettings.create()));
+
     public static final Block LIGHT_BLOCK = registerBlock("light_block",
                     new FlickerLightBlock(AbstractBlock.Settings.create()
                             .luminance(state -> {
@@ -28,6 +31,9 @@ public class ModBlocks {
                             })
                     )
             );
+
+    public static final Block FLAIR_BLOCK = registerBlock("flair_block",
+            new FlairBlock(AbstractBlock.Settings.create()));
 
 
     private static Block registerBlock(String name , Block block){
