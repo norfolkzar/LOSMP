@@ -2,5 +2,13 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "losmp:item/fuel_canister"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "losmp.fuel_percentage": 1
+      },
+      "model": "losmp:item/fuel_canister_empty"
+    }
+  ]
 }

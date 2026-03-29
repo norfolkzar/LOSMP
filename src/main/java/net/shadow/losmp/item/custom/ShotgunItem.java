@@ -7,7 +7,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -20,12 +19,20 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.shadow.losmp.item.ModItems;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
-public class ShotgunItem extends Item {
-    public ShotgunItem(Settings settings) {
+public class ShotgunItem extends Item implements GeoItem {
+    public ShotgunItem(Item.Settings settings) {
         super(settings);
     }
     private int RELOAD_TIME = 160;
@@ -78,27 +85,11 @@ public class ShotgunItem extends Item {
         }
         return super.finishUsing(itemStack, world, user);
     }
-
-    @Override
-    public void postProcessNbt(NbtCompound nbt) {
-        super.postProcessNbt(nbt);
-    }
-
-    @Override
-    public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
-        return super.allowNbtUpdateAnimation(player, hand, oldStack, newStack);
-    }
-
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (!stack.hasNbt() || !stack.getNbt().contains("losmp.ammo")) {
             stack.getOrCreateNbt().putInt("losmp.ammo", 2);
         }
-    }
-
-    @Override
-    public boolean isNbtSynced() {
-        return super.isNbtSynced();
     }
 
     @Override
@@ -140,5 +131,31 @@ public class ShotgunItem extends Item {
             }
         }
         return secondshell;
+    }
+
+    @Override
+    public void createRenderer(Consumer<Object> consumer) {
+
+    }
+
+    @Override
+    public Supplier<Object> getRenderProvider() {
+        return null;
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0,
+                state -> {
+                    state.setAnimation(RawAnimation.begin().thenLoop("reload"));
+                    return PlayState.CONTINUE;
+                }
+        ));
+
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return null;
     }
 }

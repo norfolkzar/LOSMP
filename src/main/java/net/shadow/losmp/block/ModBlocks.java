@@ -4,10 +4,12 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.util.Identifier;
 import net.shadow.losmp.Losmp;
 
@@ -15,6 +17,9 @@ public class ModBlocks {
 
     public static final Block ENGINE_BLOCK = registerBlock("engine",
             new EngineBlock(FabricBlockSettings.create()));
+
+    public static final Block ESKY_BLOCK = registerBlock("esky",
+            new EskyBlock(FabricBlockSettings.create()));
 
     public static final Block LIGHT_BLOCK = registerBlock("light_block",
                     new FlickerLightBlock(AbstractBlock.Settings.create()
@@ -27,14 +32,16 @@ public class ModBlocks {
                     )
             );
 
-    public static final Block ESKY_BLOCK = registerBlock("esky",
-            new EskyBlock(FabricBlockSettings.create()));
+    public static final Block FLAIR_BLOCK = registerBlock("flair_block",
+            new FlairBlock(AbstractBlock.Settings.create()));
 
-    private static Block registerBlock(String name, Block block){
+
+    private static Block registerBlock(String name , Block block){
         registerBlockItem(name,block);
         return Registry.register(Registries.BLOCK,new Identifier(Losmp.MOD_ID,name),
                 block);
     }
+
 
     private static Item registerBlockItem(String name, Block block){
         return Registry.register(Registries.ITEM,new Identifier(Losmp.MOD_ID,name),

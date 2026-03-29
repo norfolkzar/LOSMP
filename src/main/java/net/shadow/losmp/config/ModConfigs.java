@@ -1,45 +1,20 @@
 package net.shadow.losmp.config;
 
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.minecraft.server.command.GameRuleCommand;
+import net.minecraft.world.GameRules;
 
-import com.mojang.datafixers.util.Pair;
-import net.shadow.losmp.Losmp;
+public class ModConfigs {
+    public static GameRules.Key<GameRules.BooleanRule> allowTaskBlockFails;
+    public static Boolean isDrowningOn = true;
+    public static Boolean isOilrigSoundOn = true;
+    public static Boolean isKillingPlayerEnabled = true;
+    public static Boolean isEngineWorking = true;
+    public static Boolean isGyroZeppeliWorking = true;
+    public static Boolean isFlairWorking = true;
 
-
-public class ModConfigs  {
-    public static SimpleConfig CONFIG;
-    private static ModConfigProvider configs;
-
-    public static String TEST;
-    public static Boolean isDrowningOn;
-    public static Boolean isOilrigSoundOn;
-    public static Boolean isKillingPlayerEnabled;
-    public static Boolean isEngineWorking;
-
-
-
-    public static void registerConfigs() {
-        configs = new ModConfigProvider();
-        createConfigs();
-
-        CONFIG = SimpleConfig.of(Losmp.MOD_ID + "config").provider(configs).request();
-
-        assignConfigs();
-    }
-
-    private static void createConfigs() {
-        configs.addKeyValuePair(new Pair<>("key.test.value1", "Just a Testing string!"), "String");//Just a test config variable
-        configs.addKeyValuePair(new Pair<>("key.test.value2", false), "Makes escaping sea's/oceans almost impossible");//Drowning
-        configs.addKeyValuePair(new Pair<>("key.test.value3",true),"Oilrig Sound below or above a certain height");//Oilrig Sounds
-        configs.addKeyValuePair(new Pair<>("key.test.value4",true),"Player killing now has consequences..");//Killing player debuffs
-        configs.addKeyValuePair(new Pair<>("key.test.value5",true),"Checks if the engine is working");//checks if engine is working
-    }
-
-    private static void assignConfigs() {
-        TEST = CONFIG.getOrDefault("key.test.value1", "Nothing");
-        isDrowningOn = CONFIG.getOrDefault("key.test.value2",false);
-        isOilrigSoundOn = CONFIG.getOrDefault("key.test.value3",true);
-        isKillingPlayerEnabled = CONFIG.getOrDefault("key.test.value4",true);
-        isEngineWorking = CONFIG.getOrDefault("key.test.value5",true);
-        System.out.println("All " + configs.getConfigsList().size() + " have been set properly");
+    public static void init(){
+        allowTaskBlockFails = GameRuleRegistry.register("allowTaskBlockFails", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(false));
     }
 }
