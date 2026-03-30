@@ -12,6 +12,11 @@ public class ModScreenHandlers {
             Registry.register(Registries.SCREEN_HANDLER, new Identifier(Losmp.MOD_ID, "esky_block_screen_handler"),
                     new ExtendedScreenHandlerType<>(EskyBlockScreenHandler::new));
 
+    public static final ScreenHandlerType<RadioScreenHandler> RADIO_BLOCK_SCREEN_HANDLER =
+            Registry.register(Registries.SCREEN_HANDLER, new Identifier(Losmp.MOD_ID, "radio_block_screen_handler"),
+                    new ExtendedScreenHandlerType<>(RadioScreenHandler::new));
+
+
     public static void registerScreenHandlers() {
         Losmp.LOGGER.info("Registering Screen Handlers for " + Losmp.MOD_ID);
     }

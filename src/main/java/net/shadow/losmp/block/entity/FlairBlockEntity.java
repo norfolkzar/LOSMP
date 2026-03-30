@@ -18,7 +18,7 @@ public class FlairBlockEntity extends BlockEntity {
     private int timer = 0;
 
     public static void tick(World world, BlockPos pos, BlockState state, FlairBlockEntity be) {
-        if (!world.isClient && !ModConfigs.isFlairWorking.equals(true) && !(be.timer >= 1200)) {
+        if (!world.isClient && ModConfigs.isFlairWorking.equals(false) && !(be.timer >= 1200)) {
             be.timer++;
             if (be.timer >= 1200) {
                 be.timer = 0;

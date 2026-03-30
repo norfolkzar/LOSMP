@@ -4,8 +4,10 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.GameRuleCommand;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
+import net.minecraft.world.GameRules;
 import net.shadow.losmp.config.ModConfigs;
 
 
@@ -35,7 +37,9 @@ public class DebuffsCommand {
 
 
     public static int runOilrigSound(CommandContext<ServerCommandSource> context, boolean isOilrigEnabled) {
-        ModConfigs.isOilrigSoundOn = isOilrigEnabled;
+        var serverCommandSource = context.getSource();
+        var rule = serverCommandSource.getServer().getGameRules().get(ModConfigs.isOilrigSoundOn);
+        rule.set(isOilrigEnabled,serverCommandSource.getServer());
         if(isOilrigEnabled){
             context.getSource().sendFeedback(()-> Text.literal("Ambient Sounds Has Been Enabled"),true);
             return 1;
@@ -45,7 +49,9 @@ public class DebuffsCommand {
     }
 
     public static int runPlayerKillingPenalty(CommandContext<ServerCommandSource> context, boolean isPlayerKillingPenaltyEnabled) {
-        ModConfigs.isKillingPlayerEnabled = isPlayerKillingPenaltyEnabled;
+        var serverCommandSource = context.getSource();
+        var rule = serverCommandSource.getServer().getGameRules().get(ModConfigs.isKillingPlayerEnabled);
+        rule.set(isPlayerKillingPenaltyEnabled,serverCommandSource.getServer());
         if(isPlayerKillingPenaltyEnabled){
             context.getSource().sendFeedback(()-> Text.literal("Player Killing Penalty Has Been Enabled"),true);
             return 1;
@@ -55,7 +61,9 @@ public class DebuffsCommand {
     }
 
     public static int runDrowning(CommandContext<ServerCommandSource> context, boolean isDrowningEnabled) {
-        ModConfigs.isDrowningOn = isDrowningEnabled;
+        var serverCommandSource = context.getSource();
+        var rule = serverCommandSource.getServer().getGameRules().get(ModConfigs.isDrowningOn);
+        rule.set(isDrowningEnabled,serverCommandSource.getServer());
         if(isDrowningEnabled){
             context.getSource().sendFeedback(()-> Text.literal("Drowning Has Been Enabled"),true);
             return 1;
@@ -65,7 +73,9 @@ public class DebuffsCommand {
     }
 
     public static int engineToggle(CommandContext<ServerCommandSource> context, boolean isEngineEnabled) {
-        ModConfigs.isEngineWorking = isEngineEnabled;
+        var serverCommandSource = context.getSource();
+        var rule = serverCommandSource.getServer().getGameRules().get(ModConfigs.isEngineWorking);
+        rule.set(isEngineEnabled,serverCommandSource.getServer());
         if(isEngineEnabled){
             context.getSource().sendFeedback(()-> Text.literal("Engine Is Now Repaired"),true);
             return 1;
@@ -75,7 +85,9 @@ public class DebuffsCommand {
     }
 
     public static int flairToggle(CommandContext<ServerCommandSource> context, boolean isFlairEnabled) {
-        ModConfigs.isFlairWorking = isFlairEnabled;
+        var serverCommandSource = context.getSource();
+        var rule = serverCommandSource.getServer().getGameRules().get(ModConfigs.isFlairWorking);
+        rule.set(isFlairEnabled,serverCommandSource.getServer());
         if(isFlairEnabled){
             context.getSource().sendFeedback(()-> Text.literal("Flair Is Now Repaired"),true);
             return 1;
@@ -85,7 +97,9 @@ public class DebuffsCommand {
     }
 
     public static int gyroToggle(CommandContext<ServerCommandSource> context, boolean isGyroEnabled) {
-        ModConfigs.isGyroZeppeliWorking = isGyroEnabled;
+        var serverCommandSource = context.getSource();
+        var rule = serverCommandSource.getServer().getGameRules().get(ModConfigs.isGyroZeppeliWorking);
+        rule.set(isGyroEnabled,serverCommandSource.getServer());
         if(isGyroEnabled){
             context.getSource().sendFeedback(()-> Text.literal("Gyro Is Now Repaired"),true);
             return 1;

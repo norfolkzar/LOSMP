@@ -27,9 +27,10 @@ public class FuelCanisterItem extends Item {
         var server = player.getServer();
         var block = level.getBlockState(context.getBlockPos());
         var itemStack = player.getMainHandStack();
-        if(block.hasBlockEntity() && block.getBlock() == ModBlocks.FLAIR_BLOCK && !ModConfigs.isFlairWorking.equals(true) && itemStack.getNbt().getInt("losmp.fuel") == 1){
+        if(block.hasBlockEntity() && block.getBlock() == ModBlocks.FLAIR_BLOCK && ModConfigs.isFlairWorking.equals(false) && itemStack.getNbt().getInt("losmp.fuel") == 1){
             itemStack.getNbt().putInt("losmp.fuel",0);
-            ModConfigs.isFlairWorking = true;
+            var rule = server.getGameRules().get(ModConfigs.isFlairWorking);
+            rule.set(true,server);
             return ActionResult.SUCCESS;
         }
         return ActionResult.SUCCESS;

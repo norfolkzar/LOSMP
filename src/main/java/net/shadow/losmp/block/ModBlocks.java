@@ -21,6 +21,10 @@ public class ModBlocks {
     public static final Block ESKY_BLOCK = registerBlock("esky",
             new EskyBlock(FabricBlockSettings.create()));
 
+    public static final Block RADIO_BLOCK = registerBlock("radio",
+            new RadioBlock(FabricBlockSettings.create()));
+
+
     public static final Block LIGHT_BLOCK = registerBlock("light_block",
                     new FlickerLightBlock(AbstractBlock.Settings.create()
                             .luminance(state -> {

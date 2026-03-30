@@ -17,6 +17,7 @@ import java.util.Random;
 //livingEntity.hasPermissionLevel() to check if the player has OP or smthing
 @EventBusSubscriberWrapper
 public class ServerEvents {
+
     static Random random = new Random();
     private static double scarySoundCooldownForY0 = 20 * 60 * 3 + random.nextInt(10) * 20 * 6;
     private static double scarySoundCooldownForY80 = 20 * 60 * 3 + random.nextInt(10) * 20 * 6;
@@ -80,6 +81,7 @@ public class ServerEvents {
     public static void onServerStart(ServerStartingEventWrapper event){
         var server = event.getServer();
         server.getGameRules().get(GameRules.REDUCED_DEBUG_INFO).set(true,server);
+        server.getGameRules().get(GameRules.ANNOUNCE_ADVANCEMENTS).set(false,server);
     }
 
     private static int getBoundedRandom(int min,int max) {
@@ -107,5 +109,4 @@ public class ServerEvents {
     public static SoundEvent placeHolderSoundfordrowning_loud() {
         return SoundEvents.BLOCK_BEACON_AMBIENT;
     }
-    
 }

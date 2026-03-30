@@ -10,8 +10,12 @@ import net.shadow.losmp.block.ModBlocks;
 
 public class ModBlockEntities {
     public static final BlockEntityType<EskyBlockEntity> ESKY_BLOCK_ENTITY =
-            Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(Losmp.MOD_ID,"esky_be"),
+            Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(Losmp.MOD_ID,"esky_block_entity"),
                     FabricBlockEntityTypeBuilder.create(EskyBlockEntity::new, ModBlocks.ESKY_BLOCK).build());
+
+    public static final BlockEntityType<RadioBlockEntity> RADIO_BLOCK_ENTITY =
+            Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(Losmp.MOD_ID,"radio_block_entity"),
+                    FabricBlockEntityTypeBuilder.create(RadioBlockEntity::new, ModBlocks.RADIO_BLOCK).build());
 
     public static final BlockEntityType<FlairBlockEntity> FLAIR_BLOCK_ENTITY =
             Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(Losmp.MOD_ID, "flair_block_entity"),
