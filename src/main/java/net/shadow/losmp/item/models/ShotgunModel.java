@@ -8,7 +8,7 @@ import software.bernie.geckolib.model.GeoModel;
 public class ShotgunModel extends GeoModel<ShotgunItem> {
     @Override
     public Identifier getModelResource(ShotgunItem item) {
-        return new Identifier(Losmp.MOD_ID, "geo/shotgun.json");
+        return new Identifier(Losmp.MOD_ID, "geo/shotgun.geo.json");
     }
 
     @Override
